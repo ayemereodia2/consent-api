@@ -7,9 +7,10 @@ class Consent(models.Model):
     name_on_health_card = models.CharField(max_length=256,blank=False, null=False)
     health_card_number = models.CharField(max_length=155,blank=False, null=False)
     date_of_birth = models.DateTimeField(auto_now=True)
-    permission_to_communicate = models.BooleanField()
+    permission_to_email = models.BooleanField()
+    permission_to_text = models.BooleanField()
     email_to_communicate_with = models.CharField(max_length=155)
-    contact_me = models.BooleanField()
+    contact_me = models.CharField(max_length=55)
     date_of_signature = models.DateTimeField(auto_now=True)
     pronouns = models.CharField(max_length=150, blank=False, null=False)
 
@@ -17,14 +18,12 @@ class Consent(models.Model):
 
 class CareGiver(models.Model):
     care_giver_name = models.CharField(max_length=155, blank=False, null=False)
-    relationship_to_client = models.CharField(max_length=150, blank=False, null=False)
     consent = models.ForeignKey(Consent, related_name='caregivers', on_delete=models.CASCADE)
 
     
     
 class CareGiverType(models.Model):
     institution_name = models.CharField(max_length=155, blank=False, null=False)
-    relationship_to_client = models.CharField(max_length=155,blank=False, null=False)
     consent = models.ForeignKey(Consent, related_name='caregiver_types', on_delete=models.CASCADE)
 
 class CareGiverSerializer(serializers.ModelSerializer):
@@ -37,6 +36,9 @@ class CareGiverTypeSerializer(serializers.ModelSerializer):
         model = CareGiverType
         fields = ['institution_name', 'relationship_to_client']
         
+        
+
+
         
 class ConsentSerializer(serializers.ModelSerializer):
     caregivers = CareGiverSerializer(many=True, required=False)
@@ -60,7 +62,18 @@ class ConsentSerializer(serializers.ModelSerializer):
             CareGiverType.objects.create(consent=consent, **caregiver_type_data)
 
         return consent
+    
+    
+class ConsentPackageSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Consent
+        fields = '__all__'
+
+
+class ConsentPackage(models.Model):
+    consent_title = models.CharField(max_length=256,blank=False, null=False)
+    consent_url = models.CharField(max_length=256,blank=False, null=False)
 
 
  # RELATIONSHIPS = [
