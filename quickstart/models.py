@@ -18,12 +18,14 @@ class Consent(models.Model):
 
 class CareGiver(models.Model):
     care_giver_name = models.CharField(max_length=155, blank=False, null=False)
+    relationship_to_client = models.CharField(max_length=155,blank=False, null=False)
     consent = models.ForeignKey(Consent, related_name='caregivers', on_delete=models.CASCADE)
 
     
     
 class CareGiverType(models.Model):
     institution_name = models.CharField(max_length=155, blank=False, null=False)
+    relationship_to_client = models.CharField(max_length=155,blank=False, null=False)
     consent = models.ForeignKey(Consent, related_name='caregiver_types', on_delete=models.CASCADE)
 
 class CareGiverSerializer(serializers.ModelSerializer):
@@ -37,17 +39,14 @@ class CareGiverTypeSerializer(serializers.ModelSerializer):
         fields = ['institution_name', 'relationship_to_client']
         
         
-
-
-        
 class ConsentSerializer(serializers.ModelSerializer):
     caregivers = CareGiverSerializer(many=True, required=False)
     caregiver_types = CareGiverTypeSerializer(many=True, required=False)
 
     class Meta:
         model = Consent
-        fields = ['client_name', 'name_on_health_card', 'health_card_number', 'date_of_birth', 'permission_to_communicate',
-                  'email_to_communicate_with', 'contact_me', 'date_of_signature', 'pronouns', 'caregivers', 'caregiver_types']
+        fields = ['client_name', 'name_on_health_card', 'health_card_number', 'date_of_birth', 'permission_to_email',
+                  'permission_to_text','email_to_communicate_with', 'contact_me', 'date_of_signature', 'pronouns', 'caregivers', 'caregiver_types']
 
     def create(self, validated_data):
         caregivers_data = validated_data.pop('caregivers', [])
@@ -62,8 +61,8 @@ class ConsentSerializer(serializers.ModelSerializer):
             CareGiverType.objects.create(consent=consent, **caregiver_type_data)
 
         return consent
-    
-    
+
+
 class ConsentPackageSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -74,7 +73,6 @@ class ConsentPackageSerializer(serializers.ModelSerializer):
 class ConsentPackage(models.Model):
     consent_title = models.CharField(max_length=256,blank=False, null=False)
     consent_url = models.CharField(max_length=256,blank=False, null=False)
-
 
  # RELATIONSHIPS = [
     #     ('father', 'Father'),
