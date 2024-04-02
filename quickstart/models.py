@@ -13,6 +13,10 @@ class Consent(models.Model):
     contact_me = models.CharField(max_length=55)
     date_of_signature = models.DateTimeField(auto_now=True)
     pronouns = models.CharField(max_length=150, blank=False, null=False)
+    
+    
+class SignedConsent(Consent):
+    image_base64 = models.CharField(max_length=8192, blank=False, null=False)
 
 
 
@@ -67,6 +71,12 @@ class ConsentPackageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Consent
+        fields = '__all__'
+        
+class SignedConsentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SignedConsent
         fields = '__all__'
 
 

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .p-24 {
+            padding: 6rem;
+            /* Tailwind's scale is based on a 4px scale, so 24 * 4px = 96px */
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        @media (min-width: 768px) {
+
+            /* Assuming the default TailwindCSS medium breakpoint */
+            .md\:w-1\/5 {
+                width: 20%;
+            }
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+            /* Assuming default TailwindCSS size */
+            line-height: 2rem;
+        }
+
+        .border-b {
+            border-bottom-width: 1px;
+        }
+
+        .border {
+            border: 1px solid;
+        }
+
+        .border-black {
+            border-color: #000;
+            /* This applies to all borders; Tailwind applies it smartly based on other classes */
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mb-20 {
+            margin-bottom: 5rem;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .grid-cols-5 {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+        .grid-cols-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .grid-cols-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .mb-5 {
+            margin-bottom: 1.25rem;
+        }
+
+        .col-span-4 {
+            grid-column: span 4 / span 4;
+        }
+        .col-span-2 {
+            grid-column: span 2 / span 2;
+        }
+
+        .bottom-border-only {
+            border-bottom: 1px solid black;
+            /* Adjust the thickness and color as needed */
+            /* No borders on the top, left, and right */
+        }
+        .gap-2 {
+            gap: 0.5rem; 
+        }
+        .my-5 {
+            margin-top: 1.25rem; /* Equivalent to 20px if 1rem = 16px */
+            margin-bottom: 1.25rem;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .p-5 {
+            padding: 1.25rem; /* Equivalent to 20px if 1rem = 16px */
+        }
+
+
+    </style>
+
+<body>
+    <div class="p-24" id="element-to-capture" style="margin: 0 10px;">
+        <div class="flex ">
+            <div class="md:w-1/5">templates/logo@2x.jpeg
+                <img src='templates/logo@2x.jpeg' width="50%" />
+            </div>
+            <div class="font-semibold text-2xl mt-2 mb-20">
+                {{ consent_title }}
+            </div>
+        </div>
+        <div class="grid grid-cols-5 mb-5">
+            <p class="">Client name:</p>
+            <p class="bottom-border-only col-span-4">{{ client_name }}</p>
+        </div>
+        <div class="grid grid-cols-3 mb-5">
+            <p class="">Name on health card (if different):</p>
+            <p class="bottom-border-only col-span-2">{{ name_on_health_card }}</p>
+        </div>
+        <div class="grid grid-cols-2 mb-5">
+            <div class="grid grid-cols-3">
+                <p class=" ">Pronouns (optional):</p>
+                <p class="bottom-border-only col-span-2 py-1">{{ pronouns }}</p>
+            </div>
+            <div class="grid grid-cols-3">
+                <p class="">Health Card #:</p>
+                <p class="bottom-border-only col-span-2">{{ health_card_number }}</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-3 mb-10">
+            <p class="">Date of birth (d/m/y):</p>
+            <p class="bottom-border-only col-span-2">{{ date_of_birth }}</p>
+        </div>
+        <div>
+            <p class="font-semibold mb-3">
+                If you are giving consent but you are not the client, please
+                indicate:
+            </p>
+        </div>
+        <div class="grid grid-cols-2 mb-5 gap-2">
+            <div class="grid grid-cols-3">
+                <p class=" ">Caregiver name:</p>
+                <p class="bottom-border-only col-span-2"></p>
+            </div>
+            <div class="grid grid-cols-3">
+                <p class="">Relationship to client:</p>
+                <p class="bottom-border-only col-span-2"></p>
+            </div>
+        </div>
+        <p>
+            I give consent to Hearing and Speech Nova Scotia (HSNS) to share
+            information related to the HSNS services provided for the client named
+            above. Information can be shared with the following individuals /
+            agencies / professionals:
+        </p>
+
+        <div class="grid grid-cols-2 mb-5 gap-2">
+            <div class="bottom-border-only my-5"></div>
+            <div class="bottom-border-only my-5"></div>
+            <div class="bottom-border-only my-5"></div>
+            
+        </div>
+        <div class="grid grid-cols-5">
+            <div class="col-span-4 border border-black p-5">
+                <p>
+                    I give permission for HSNS to communicate about my assessment
+                    and/or treatment with the individuals/agencies/professionals
+                    listed above. Communication may be face-to-face, by
+                    <span class="font-bold">phone</span>, by
+                    <span class="font-bold">mail</span>, by
+                    <span class="font-bold">fax</span>, or by
+                    <span class="font-bold">secure email</span>.
+                </p>
+            </div>
+            <div class="border border-black p-5">
+                <div class="">
+
+                    <div>
+                        <input type="radio" name="communicate_radio" id="communicate_radio_yes" value="yes" />
+                        <label for="communicate_radio_yes" class="mx-2 capitalize">Yes</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="communicate_radio" id="communicate_radio_no" value="no" />
+                        <label for="communicate_radio_no" class="mx-2 capitalize">No</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-span-4 border border-black p-5">
+                <p>
+                    I understand that <span class="font-bold">email</span>
+                    communications <span class="font-bold">may not</span> be
+                    secure. I give permission for HSNS staff to send assessment and/or
+                    treatment information to me by
+                    <span class="font-bold">email</span>.
+                </p>
+                <div class="grid grid-cols-5 mb-5">
+                    <p class="">Email:</p>
+                    <p class="bottom-border-only col-span-4"></p>
+                </div>
+            </div>
+            <div class="border border-black p-5">
+                <div class="">
+                    <div>
+                        <input type="radio" name="communicate_radio" value={choice} />
+                        <label htmlFor="communicate_radio_yes" class="mx-2 capitalize">
+                            Yes
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="communicate_radio" value={choice} />
+                        <label htmlFor="communicate_radio_yes" class="mx-2 capitalize">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-4 border border-black p-5">
+                <p>
+                    I give permission for HSNS staff to contact me via
+                    <span class="font-bold">text</span> using a secure HSNS-issued
+                    cell phone. HSNS staff will not send personal health information
+                    by <span class="font-bold">text</span>. I understand that my
+                    personal health information may not be kept secure if I send it by
+                    <span class="font-bold">text</span>.
+                </p>
+            </div>
+            <div class="border border-black p-5">
+                <div class="">
+                    <div>
+                        <input type="radio" name="communicate_radio" value={choice} />
+                        <label htmlFor="communicate_radio_yes" class="mx-2 capitalize">
+                            Yes
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="communicate_radio" value={choice} />
+                        <label htmlFor="communicate_radio_yes" class="mx-2 capitalize">
+                            No
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="communicate_radio" value={choice} />
+                        <label htmlFor="communicate_radio_yes" class="mx-2 capitalize">
+                            Not applicable
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            Hearing and Speech Nova Scotia uses an electronic health record
+            system. Any staff members who provides care to you can view your
+            personal health information as needed to provide you with hearing and
+            speech services. Personal health information is considered
+            confidential in compliance with the Personal Health Information Act
+            (PHIA). <br />
+            <br /> This consent is valid for one year from the date of signature.
+            <br />
+            <br />
+            If you wish to change any information on this form, please talk to any
+            of our staff members.
+        </p>
+        <div class="my-5">
+            <p class="font-semibold mb-5">
+                By signing below, you confirm that you have legal authority to give
+                consent.
+            </p>
+            <div class="grid grid-cols-5 mb-5 gap-2">
+                <div class="grid grid-cols-3 col-span-4">
+                    <p class=" ">Client or Legal Guardian Signature:</p>
+                    {% if image_base64 %}
+                 <img src="data:image/jpeg;base64, {{ image_base64 }}" alt="Consent Signature">
+                    {% endif %}
+                    <p class="bottom-border-only col-span-2"></p>
+                </div>
+                <div class="grid grid-cols-3">
+                    <p class="">Date:</p>
+                    <p class="bottom-border-only col-span-2"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
