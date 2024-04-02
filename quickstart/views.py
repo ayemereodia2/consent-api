@@ -4,8 +4,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Consent, ConsentPackage
-from .models import ConsentSerializer, ConsentPackageSerializer, SignedConsentSerializer
+from .models import Consent, ConsentPackage, StoredConsent
+from .models import ConsentSerializer, ConsentPackageSerializer, SignedConsentSerializer, StoredConsentSerializer
 from rest_framework.views import APIView
 from django.template.loader import get_template
 from django.http import HttpResponse
@@ -145,3 +145,30 @@ class ConsentPDF(APIView):
         # Access the 'Contents' object
         contents = json_data.get('Contents', [])
         return contents
+    
+    
+class StoredConsentView(APIView):
+    def get(self, request):
+        consent_packages = StoredConsent.objects.all()
+        serializer = StoredConsentSerializer(consent_packages, many=True)
+        return Response(serializer.data)
+
+
+    def post(self, request):
+        serializer = StoredConsentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+class StoredGetConsentView(APIView):
+    def get(self, request, id):
+        try:
+            consent_package = StoredConsent.objects.get(pk=id)
+            #consent_package = StoredConsent.objects.filter(health_card_number=health_card_number)
+            serializer = StoredConsentSerializer(consent_package)
+            return Response(serializer.data)
+        except StoredConsent.DoesNotExist:
+            return Response({'error': 'StoredConsent not found'}, status=status.HTTP_404_NOT_FOUND)

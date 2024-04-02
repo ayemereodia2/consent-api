@@ -17,7 +17,12 @@ class Consent(models.Model):
     
 class SignedConsent(Consent):
     image_base64 = models.CharField(max_length=8192, blank=False, null=False)
+    
 
+class StoredConsent(models.Model):
+    client_name = models.CharField(max_length=256,blank=False, null=False)
+    health_card_number = models.CharField(max_length=256,blank=False, null=False)
+    pdf_url = models.CharField(max_length=256,blank=False, null=False)
 
 
 class CareGiver(models.Model):
@@ -41,6 +46,11 @@ class CareGiverTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CareGiverType
         fields = ['institution_name', 'relationship_to_client']
+        
+class StoredConsentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoredConsent
+        fields = '__all__'
         
         
 class ConsentSerializer(serializers.ModelSerializer):
